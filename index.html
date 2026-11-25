@@ -59,7 +59,7 @@
 <body oncontextmenu="return false;">
   <div class="card">
     <h1>Mã xác nhận của bạn</h1>
-    <p>Sao chép mã 6 số bên dưới và gửi lại vào Bot Telegram để tiếp tục.</p>
+    <p id="descText">Sao chép mã 6 số bên dưới và gửi lại vào Bot Telegram để tiếp tục.</p>
     <div class="code-box" id="codeDisplay">------</div>
     <button type="button" id="copyBtn" onclick="copyCode()">Sao chép mã</button>
     <div class="note">Mỗi mã chỉ dùng một lần cho phiên hiện tại.</div>
@@ -82,7 +82,7 @@
     const code = rawCode.replace(/\D/g, "").slice(0, 6);
     const display = document.getElementById("codeDisplay");
     const btn = document.getElementById("copyBtn");
-    const desc = document.querySelector("p");
+    const desc = document.getElementById("descText");
 
     if (code.length === 6) {
       display.textContent = code;
@@ -103,4 +103,14 @@
       setTimeout(() => { btn.textContent = "Sao chép mã"; }, 2000);
     }
 
-    function fallbackCopy(
+    function fallbackCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+  </script>
+</body>
+</html>
