@@ -59,41 +59,17 @@
 <body oncontextmenu="return false;">
   <div class="card">
     <h1>Mã xác nhận của bạn</h1>
-    <p id="descText">Sao chép mã 6 số bên dưới và gửi lại vào Bot Telegram để tiếp tục.</p>
-    <div class="code-box" id="codeDisplay">------</div>
+    <p>Sao chép mã 6 số bên dưới và gửi lại vào Bot Telegram để tiếp tục.</p>
+    <div class="code-box" id="codeDisplay">839201</div>
     <button type="button" id="copyBtn" onclick="copyCode()">Sao chép mã</button>
     <div class="note">Mỗi mã chỉ dùng một lần cho phiên hiện tại.</div>
   </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("t");
-    let rawCode = params.get("code") || "";
-
-    if (token) {
-      try {
-        const base64 = token.replace(/-/g, "+").replace(/_/g, "/");
-        rawCode = atob(base64);
-      } catch (e) {
-        rawCode = "";
-      }
-    }
-
-    const code = rawCode.replace(/\D/g, "").slice(0, 6);
-    const display = document.getElementById("codeDisplay");
+    const code = "839201";
     const btn = document.getElementById("copyBtn");
-    const desc = document.getElementById("descText");
-
-    if (code.length === 6) {
-      display.textContent = code;
-    } else {
-      display.textContent = "------";
-      btn.style.display = "none";
-      desc.textContent = "Đường dẫn không có mã 6 số hợp lệ. Vui lòng quay lại Bot Telegram để lấy link mới.";
-    }
 
     function copyCode() {
-      if (code.length !== 6) return;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(code).catch(() => fallbackCopy(code));
       } else {
