@@ -67,7 +67,19 @@
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const code = (params.get("code") || "").replace(/\D/g, "").slice(0, 6);
+    const token = params.get("t");
+    let rawCode = params.get("code") || "";
+
+    if (token) {
+      try {
+        const base64 = token.replace(/-/g, "+").replace(/_/g, "/");
+        rawCode = atob(base64);
+      } catch (e) {
+        rawCode = "";
+      }
+    }
+
+    const code = rawCode.replace(/\D/g, "").slice(0, 6);
     const display = document.getElementById("codeDisplay");
     const btn = document.getElementById("copyBtn");
     const desc = document.querySelector("p");
@@ -91,14 +103,4 @@
       setTimeout(() => { btn.textContent = "Sao chép mã"; }, 2000);
     }
 
-    function fallbackCopy(text) {
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-    }
-  </script>
-</body>
-</html>
+    function fallbackCopy(
